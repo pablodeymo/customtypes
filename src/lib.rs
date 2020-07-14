@@ -1,12 +1,16 @@
 use arraystring::{typenum::U255, ArrayString};
 use validator::ValidationError;
 
+#[cfg(feature = "enablediesel")]
 #[macro_use]
 extern crate validator_derive;
+#[cfg(feature = "enablediesel")]
 #[macro_use]
 extern crate diesel;
 
+#[cfg(feature = "enablediesel")]
 pub mod combo;
+#[cfg(feature = "enableactix")]
 pub mod httpmsgid;
 pub mod httpresponsefind;
 
