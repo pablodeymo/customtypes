@@ -5,7 +5,7 @@ pub struct HttpResponseFind<T>
 where
     T: Serialize,
 {
-    pub elements: std::vec::Vec<T>,
+    pub data: std::vec::Vec<T>,
     pub count_pages: i64,
     #[serde(rename(serialize = "recordsTotal"))]
     pub count_total_records: i64,
