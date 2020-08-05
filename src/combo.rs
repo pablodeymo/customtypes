@@ -24,3 +24,11 @@ pub struct ComboInsert {
     #[validate(custom = "validate_name_length")]
     pub name: Name,
 }
+
+// Es un combo simple con parent_id
+#[derive(Debug, Queryable, Deserialize, Serialize)]
+pub struct TableComboWithParentId {
+    pub id: i64,
+    pub name: Name,
+    pub parent_id: i64,
+}
