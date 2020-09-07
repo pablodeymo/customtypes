@@ -10,6 +10,29 @@ pub struct TableComboSimpleQuery {
     pub name: Name,
 }
 
+impl TableComboSimpleQuery {
+    pub fn from_id_name(id: Option<i64>, name: Option<Name>) -> Option<TableComboSimpleQuery> {
+        match (id, name) {
+            (Some(id), Some(name)) => Some(TableComboSimpleQuery { id, name }),
+            (_, _) => None,
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::TableComboSimpleQuery;
+    use crate::Name;
+    #[test]
+    fn combo_from_id_name() {
+        let combo = TableComboSimpleQuery::from_id_name(Some(42), Some(Name::try_from_str("test").unwrap())).unwrap();
+        assert_eq!(combo.id, 42);
+
+        let none_combo = TableComboSimpleQuery::from_id_name(Some(42), None);
+        assert_eq!(none_combo.is_none(), true);
+    }
+}
+
 // permite hacer un wrapping de la lista de resultados del combo, para que sea un
 // JSON completo
 #[derive(Debug, Deserialize, Serialize)]
