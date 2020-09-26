@@ -1,3 +1,4 @@
+use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
@@ -16,20 +17,6 @@ impl TableComboSimpleQuery {
             (Some(id), Some(name)) => Some(TableComboSimpleQuery { id, name }),
             (_, _) => None,
         }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::TableComboSimpleQuery;
-    use crate::Name;
-    #[test]
-    fn combo_from_id_name() {
-        let combo = TableComboSimpleQuery::from_id_name(Some(42), Some(Name::try_from_str("test").unwrap())).unwrap();
-        assert_eq!(combo.id, 42);
-
-        let none_combo = TableComboSimpleQuery::from_id_name(Some(42), None);
-        assert_eq!(none_combo.is_none(), true);
     }
 }
 
@@ -54,4 +41,28 @@ pub struct TableComboWithParentId {
     pub id: i64,
     pub name: Name,
     pub parent_id: i64,
+}
+
+// Traits
+pub trait SimpleComboTrait {
+    fn get_all(conn: &diesel::pg::PgConnection) -> Result<Vec<TableComboSimpleQuery>>;
+
+    fn get_all_combo(conn: &diesel::pg::PgConnection) -> Result<StructComboSimple> {
+        let res = Self::get_all(conn)?;
+        Ok(StructComboSimple { elements: res })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::TableComboSimpleQuery;
+    use crate::Name;
+    #[test]
+    fn combo_from_id_name() {
+        let combo = TableComboSimpleQuery::from_id_name(Some(42), Some(Name::try_from_str("test").unwrap())).unwrap();
+        assert_eq!(combo.id, 42);
+
+        let none_combo = TableComboSimpleQuery::from_id_name(Some(42), None);
+        assert_eq!(none_combo.is_none(), true);
+    }
 }
