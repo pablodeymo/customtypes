@@ -66,3 +66,9 @@ mod tests {
         assert_eq!(none_combo.is_none(), true);
     }
 }
+
+#[derive(Debug, Queryable, Deserialize, Serialize)]
+pub struct TableComboSimpleReq {
+    pub id: Option<i64>,
+    pub name: Option<Name>,
+}
