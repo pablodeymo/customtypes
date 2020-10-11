@@ -12,7 +12,8 @@ extern crate diesel;
 pub mod combo;
 #[cfg(feature = "enableactix")]
 pub mod httpmsgid;
-pub mod httpresponsefind;
+#[cfg(feature = "enableactix")]
+pub mod responsefind;
 
 pub type Name = ArrayString<U255>;
 pub fn validate_name_length(name: &Name) -> Result<(), ValidationError> {
