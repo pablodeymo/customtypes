@@ -27,6 +27,15 @@ pub struct StructComboSimple {
     pub elements: Vec<TableComboSimpleQuery>,
 }
 
+#[cfg(feature = "enableactix")]
+impl Into<actix_web::HttpResponse> for StructComboSimple {
+    fn into(self) -> actix_web::HttpResponse {
+        actix_web::HttpResponse::Ok()
+            .content_type("application/json")
+            .body(serde_json::to_string(&self).unwrap())
+    }
+}
+
 // permite recibir el request de insercion de un elemento de
 // un combo (tabla)
 #[derive(Debug, Deserialize, Serialize, Validate)]
@@ -59,7 +68,11 @@ mod tests {
     use crate::Name;
     #[test]
     fn combo_from_id_name() {
-        let combo = TableComboSimpleQuery::from_id_name(Some(42), Some(Name::try_from_str("test").unwrap())).unwrap();
+        let combo = TableComboSimpleQuery::from_id_name(
+            Some(42),
+            Some(Name::try_from_str("test").unwrap()),
+        )
+        .unwrap();
         assert_eq!(combo.id, 42);
 
         let none_combo = TableComboSimpleQuery::from_id_name(Some(42), None);
