@@ -1,4 +1,4 @@
-use arraystring::{typenum::U255, ArrayString};
+use arraystring::{typenum::U255, typenum::U30, ArrayString};
 use validator::ValidationError;
 
 #[cfg(feature = "enablediesel")]
@@ -10,10 +10,16 @@ extern crate diesel;
 
 #[cfg(feature = "enablediesel")]
 pub mod combo;
+#[cfg(feature = "enablediesel")]
+pub mod countryenum;
 #[cfg(feature = "enableactix")]
 pub mod httpmsgid;
+#[cfg(feature = "enablediesel")]
+pub mod langenum;
+pub mod password;
 #[cfg(feature = "enableactix")]
 pub mod responsefind;
+pub mod token;
 
 pub type Name = ArrayString<U255>;
 pub fn validate_name_length(name: &Name) -> Result<(), ValidationError> {
@@ -23,3 +29,5 @@ pub fn validate_name_length(name: &Name) -> Result<(), ValidationError> {
 
     Ok(())
 }
+
+pub type PhoneNumber = ArrayString<U30>;
