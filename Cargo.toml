@@ -14,7 +14,7 @@ anyhow = "1.0"
 arraystring = { version = "0.3.0", features = ["diesel-traits", "serde-traits"] }
 validator = "0.10.1"
 validator_derive = "0.10.1"
-diesel = { version = "1.4.5", optional = true }
+diesel = { version = "1.4.5", optional = true, features = ["postgres"] }
 strum = "0.20.0"
 strum_macros = "0.20.0"
 
