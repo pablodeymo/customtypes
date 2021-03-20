@@ -2,8 +2,6 @@ use arraystring::{typenum::U255, typenum::U30, ArrayString};
 use validator::ValidationError;
 
 #[cfg(feature = "enablediesel")]
-#[macro_use]
-extern crate validator_derive;
 #[cfg(feature = "enablediesel")]
 #[macro_use]
 extern crate diesel;

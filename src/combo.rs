@@ -1,6 +1,6 @@
+use actix_web_validator::Validate;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
-use validator::Validate;
 
 use super::{validate_name_length, Name};
 
