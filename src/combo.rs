@@ -1,8 +1,7 @@
+use super::{validate_name_length, Name};
 use actix_web_validator::Validate;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
-
-use super::{validate_name_length, Name};
 
 // permite hacer query de id y name sobre tablas de tipo combo (table_...)
 #[derive(Debug, Queryable, Deserialize, Serialize)]
@@ -84,4 +83,13 @@ mod tests {
 pub struct TableComboSimpleReq {
     pub id: Option<i64>,
     pub name: Option<Name>,
+}
+
+impl From<TableComboSimpleQuery> for TableComboSimpleReq {
+    fn from(v: TableComboSimpleQuery) -> TableComboSimpleReq {
+        TableComboSimpleReq {
+            id: Some(v.id),
+            name: Some(v.name),
+        }
+    }
 }
