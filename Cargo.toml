@@ -9,7 +9,8 @@ edition = "2018"
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-actix-web = { version="3.3.2", features=["rust-tls"], optional = true }
+actix-web = { version="4.0.0-beta.8", optional = true }
+actix-http = { version="3.0.0-beta.8", optional = true }
 actix-web-validator = { version = "2.0.3", optional = true }
 anyhow = "1.0"
 arraystring = { version = "0.3.0", features = ["diesel-traits", "serde-traits"] }
@@ -19,5 +20,5 @@ strum = "0.21.0"
 strum_macros = "0.21.1"
 
 [features]
-enableactix = ["actix-web","actix-web-validator"]
+enableactix = ["actix-web","actix-web-validator","actix-http"]
 enablediesel = ["diesel"]
