@@ -14,11 +14,11 @@ where
     pub count_filtered_records: i64,
 }
 
-impl<T: Serialize> Into<HttpResponse> for ResponseFind<T> {
-    fn into(self) -> HttpResponse {
+impl<T: Serialize> From<ResponseFind<T>> for HttpResponse {
+    fn from(v: ResponseFind<T>) -> HttpResponse {
         HttpResponse::Ok()
             .content_type("application/json")
-            .body(serde_json::to_string(&self).unwrap())
+            .body(serde_json::to_string(&v).unwrap())
     }
 }
 
