@@ -1,5 +1,4 @@
-use arraystring::{typenum::U255, typenum::U30, ArrayString};
-use validator::ValidationError;
+use arraystring::{typenum::U30, ArrayString};
 
 #[cfg(feature = "enablediesel")]
 #[cfg(feature = "enablediesel")]
@@ -18,14 +17,6 @@ pub mod password;
 #[cfg(feature = "enableactix")]
 pub mod responsefind;
 pub mod token;
-
-pub type Name = ArrayString<U255>;
-pub fn validate_name_length(name: &Name) -> Result<(), ValidationError> {
-    if name.as_str().is_empty() {
-        return Err(ValidationError::new("Invalid name"));
-    }
-
-    Ok(())
-}
+pub mod name;
 
 pub type PhoneNumber = ArrayString<U30>;
