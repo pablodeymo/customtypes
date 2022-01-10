@@ -1,6 +1,6 @@
 [package]
 name = "customtypes"
-version = "0.8.0"
+version = "0.12.0"
 authors = ["Pablo Deymonnaz <deymonnaz@gmail.com>"]
 edition = "2018"
 
@@ -15,9 +15,11 @@ arraystring = { version = "0.3.0", features = ["diesel-traits", "serde-traits"] 
 validator = "0.10.1"
 validator_derive = "0.10.1"
 diesel = { version = "1.4.5", optional = true }
-strum = "0.19.2"
-strum_macros = "0.19.2"
+strum = "0.23.0"
+strum_macros = "0.23.1"
+calamine = { version = "0.18.0", optional = true }
 
 [features]
 enableactix = ["actix-web"]
 enablediesel = ["diesel"]
+enablecalamine = ["calamine"]
