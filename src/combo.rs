@@ -1,4 +1,4 @@
-use super::{validate_name_length, Name};
+use crate::name::{validate_name_length, Name};
 use actix_web_validator::Validate;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
