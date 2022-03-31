@@ -1,7 +1,7 @@
-use super::{validate_name_length, Name};
-use actix_web_validator::Validate;
+use crate::name::{validate_name_length, Name};
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
+use validator::Validate;
 
 // permite hacer query de id y name sobre tablas de tipo combo (table_...)
 #[derive(Debug, Queryable, Deserialize, Serialize)]
