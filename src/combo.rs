@@ -27,11 +27,11 @@ pub struct StructComboSimple {
 }
 
 #[cfg(feature = "enableactix")]
-impl Into<actix_web::HttpResponse> for StructComboSimple {
-    fn into(self) -> actix_web::HttpResponse {
+impl From<StructComboSimple> for actix_web::HttpResponse {
+    fn from(v: StructComboSimple) -> actix_web::HttpResponse {
         actix_web::HttpResponse::Ok()
             .content_type("application/json")
-            .body(serde_json::to_string(&self).unwrap())
+            .body(serde_json::to_string(&v).unwrap())
     }
 }
 
