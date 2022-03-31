@@ -1,4 +1,4 @@
-use actix_web::web;
+use actix_web::{body, HttpResponse};
 use anyhow::Result;
 use serde::Serialize;
 
@@ -10,7 +10,9 @@ pub struct MsgHttpId {
 }
 
 impl MsgHttpId {
-    pub fn send(id: i64) -> Result<web::HttpResponse> {
-        Ok(web::HttpResponse::Ok().json(MsgHttpId { id, status: 200 }))
+    pub fn send(id: i64) -> Result<HttpResponse<body::BoxBody>> {
+        Ok(HttpResponse::Ok()
+            .append_header(("Content-Type", "application/json"))
+            .body(serde_json::to_string(&MsgHttpId { id, status: 200 })?))
     }
 }

@@ -1,7 +1,7 @@
-use validator::ValidationError;
 use arraystring::{typenum::U255, ArrayString};
 #[cfg(feature = "enablecalamine")]
 use calamine::DataType;
+use validator::ValidationError;
 
 pub type Name = ArrayString<U255>;
 pub fn validate_name_length(name: &Name) -> Result<(), ValidationError> {

@@ -1,8 +1,6 @@
 use arraystring::{typenum::U30, ArrayString};
 
 #[cfg(feature = "enablediesel")]
-#[macro_use]
-extern crate validator_derive;
 #[cfg(feature = "enablediesel")]
 #[macro_use]
 extern crate diesel;
@@ -15,10 +13,10 @@ pub mod countryenum;
 pub mod httpmsgid;
 #[cfg(feature = "enablediesel")]
 pub mod langenum;
+pub mod name;
 pub mod password;
 #[cfg(feature = "enableactix")]
 pub mod responsefind;
 pub mod token;
-pub mod name;
 
 pub type PhoneNumber = ArrayString<U30>;
