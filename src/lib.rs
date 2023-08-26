@@ -16,7 +16,11 @@ pub mod langenum;
 pub mod name;
 pub mod password;
 #[cfg(feature = "enableactix")]
+pub mod responsecount;
+#[cfg(feature = "enableactix")]
 pub mod responsefind;
+#[cfg(feature = "enableactix")]
+pub mod responsemsg;
 pub mod token;
 
 pub type PhoneNumber = ArrayString<U30>;

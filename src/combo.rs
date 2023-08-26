@@ -17,6 +17,38 @@ impl TableComboSimpleQuery {
             (_, _) => None,
         }
     }
+
+    pub fn search_id_from_name(list: &[TableComboSimpleQuery], name: &Name) -> Option<i64> {
+        list.iter()
+            .filter(|elem| elem.name.as_str() == name.as_str())
+            .map(|elem| elem.id)
+            .next()
+    }
+
+    pub fn search_id_from_name_str(list: &[TableComboSimpleQuery], name_str: &str) -> Option<i64> {
+        list.iter()
+            .filter(|elem| elem.name.as_str() == name_str)
+            .map(|elem| elem.id)
+            .next()
+    }
+
+    pub fn search_id_from_name_str_max_len(
+        list: &[TableComboSimpleQuery],
+        name_str: &str,
+        max_len: usize,
+    ) -> Option<i64> {
+        list.iter()
+            .filter(|elem| {
+                let elem_name_str = elem.name.as_str();
+                if elem_name_str.len() > max_len {
+                    elem.name.as_str().get(0..max_len) == Some(name_str)
+                } else {
+                    elem.name.as_str() == name_str
+                }
+            })
+            .map(|elem| elem.id)
+            .next()
+    }
 }
 
 // permite hacer un wrapping de la lista de resultados del combo, para que sea un
@@ -51,6 +83,15 @@ pub struct TableComboWithParentId {
     pub parent_id: i64,
 }
 
+impl TableComboWithParentId {
+    pub fn search_id_from_name_str(list: &[TableComboWithParentId], name_str: &str) -> Option<i64> {
+        list.iter()
+            .filter(|elem| elem.name.as_str() == name_str)
+            .map(|elem| elem.id)
+            .next()
+    }
+}
+
 // Traits
 pub trait SimpleComboTrait {
     fn get_all(conn: &diesel::pg::PgConnection) -> Result<Vec<TableComboSimpleQuery>>;
@@ -64,7 +105,8 @@ pub trait SimpleComboTrait {
 #[cfg(test)]
 mod tests {
     use super::TableComboSimpleQuery;
-    use crate::Name;
+    use crate::name::Name;
+
     #[test]
     fn combo_from_id_name() {
         let combo = TableComboSimpleQuery::from_id_name(
@@ -76,6 +118,51 @@ mod tests {
 
         let none_combo = TableComboSimpleQuery::from_id_name(Some(42), None);
         assert_eq!(none_combo.is_none(), true);
+    }
+
+    #[test]
+    fn test_search() {
+        let elem1 = TableComboSimpleQuery::from_id_name(
+            Some(3),
+            Some(Name::try_from_str("elem1").unwrap()),
+        )
+        .unwrap();
+        let elem2 = TableComboSimpleQuery::from_id_name(
+            Some(5),
+            Some(Name::try_from_str("elem5").unwrap()),
+        )
+        .unwrap();
+        let elem3 = TableComboSimpleQuery::from_id_name(
+            Some(7),
+            Some(Name::try_from_str("elem7").unwrap()),
+        )
+        .unwrap();
+        // new element used to test max len
+        let elemnuevo = TableComboSimpleQuery::from_id_name(
+            Some(9),
+            Some(Name::try_from_str("nuevoelemento").unwrap()),
+        )
+        .unwrap();
+
+        let v = vec![elem1, elem2, elem3, elemnuevo];
+        let id_found =
+            TableComboSimpleQuery::search_id_from_name(&v, &Name::try_from_str("elem5").unwrap());
+        assert_eq!(id_found.unwrap(), 5);
+
+        let id_not_found =
+            TableComboSimpleQuery::search_id_from_name(&v, &Name::try_from_str("zzz").unwrap());
+        assert!(id_not_found.is_none());
+
+        let id_found2 = TableComboSimpleQuery::search_id_from_name_str(&v, "elem7");
+        assert_eq!(id_found2.unwrap(), 7);
+
+        let id_found_max_len =
+            TableComboSimpleQuery::search_id_from_name_str_max_len(&v, "nuevo", 5);
+        assert_eq!(id_found_max_len.unwrap(), 9);
+
+        let id_found_max_len_full =
+            TableComboSimpleQuery::search_id_from_name_str_max_len(&v, "nuevoelemento", 25);
+        assert_eq!(id_found_max_len_full.unwrap(), 9);
     }
 }
 
